@@ -96,6 +96,7 @@ Comandos para serem executados na raiz do projeto utilizando um terminal (CMD ou
 ```
 
 Os ambientes ficaram visíveis nas URLs seguintes:
+
 **HLG**
 http://localhost:31000/
 
