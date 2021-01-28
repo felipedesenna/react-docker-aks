@@ -1,70 +1,112 @@
-# Getting Started with Create React App
+<h3 align="center">
+  Variável de ambiente - (ReactJS, Docker, AKS)
+</h3>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Índice
 
-## Available Scripts
+- [Índice](#índice)
+  - [:memo: Sobre](#memo-sobre)
+  - [:computer: Como usar](#computer-como-usar)
+  - [:whale: Docker](#whale-docker)
+  - [:ferris_wheel: Kubernetes](#kubernetes)
 
-In the project directory, you can run:
+<a id="sobre"></a>
 
-### `yarn start`
+## :memo: Sobre
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+O propósito do projeto é criar um template para demonstrar o funcionamento e integração de variáveis de ambiente no ReactJS junto com Docker e AKS.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+<a id="como-usar"></a>
 
-### `yarn test`
+## :computer: Como usar
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1 - Faça o download ou clone do projeto:
 
-### `yarn build`
+```sh
+  $ git clone https://github.com/felipedesenna/react-docker-aks.git
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+2 - Executando o projeto:
+Os comandos devem ser executados na raiz do projeto utilizando um terminal (CMD ou Bash)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```sh
+  # Instale as dependências do projeto
+  $ npm install / yarn
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+  ## Build da aplicação
+  $ npm run build / yarn build
+```
 
-### `yarn eject`
+Os comandos acima vão criar o build do projeto, esse build vai ser necessário para criar a imagem do docker.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+<a id="docker"></a>
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## :whale: Docker
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Comandos para serem executados na raiz do projeto utilizando um terminal (CMD ou Bash)
+1 - Criando a imagem do projeto
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+```sh
+  $ docker build -t react-docker-aks .
+```
 
-## Learn More
+2 - Criação do registro no Docker local
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```sh
+  $ docker run -d -p 5000:5000 --restart=always --name registry registry:2
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+3 - Criação de tag para referencia da imagem
 
-### Code Splitting
+```sh
+  $ docker tag react-docker-aks localhost:5000/react-docker-aks
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+4 - Fazendo o push da imagem para o Docker local
 
-### Analyzing the Bundle Size
+```sh
+  $ docker push localhost:5000/react-docker-aks
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+<a id="kubernetes"></a>
 
-### Making a Progressive Web App
+## :ferris_wheel: Kubernetes
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Comandos para serem executados na raiz do projeto utilizando um terminal (CMD ou Bash)
+1 - Ativando o Kubernetes no Docker-Desktop
 
-### Advanced Configuration
+<img alt="Ativando o Kubernetes no Docker-Desktop" src="src/img/kubernetes-docker-desktop.png" width="830px" />
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+2 - Criando o serviço Kubernetes
 
-### Deployment
+```sh
+  $ kubectl apply -f deployment.yaml
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+3 - Serviço do ambiente staging
 
-### `yarn build` fails to minify
+```sh
+  $ kubectl apply -f deployment-staging.yaml
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+4 - Serviço do ambiente production
+
+```sh
+  $ kubectl apply -f deployment-production.yaml
+```
+
+Os ambientes ficaram visíveis nas URLs seguintes:
+**HLG**
+http://localhost:31000/
+
+**STG**
+http://localhost:31001/
+
+**PRD**
+http://localhost:31002/
+
+- ### **Observação**
+
+  - É **necessário** possuir o **[Node.js](https://nodejs.org/en/download/)** instalado na máquina e para gerenciar os pacotes da aplicação o **[NPM](https://www.npmjs.com/get-npm)** ou **[Yarn](https://yarnpkg.com/getting-started/install)**.
+  - Para executar o **Docker** é preciso ter instalado na máquina, você pode fazer o download aqui **[Docker](https://docs.docker.com/docker-for-windows/install/)**.
+  - Para executar o **Kubectl** é preciso ter instalado na máquina o **Minikube**, você pode fazer o download aqui **[Minikube](https://minikube.sigs.k8s.io/docs/start/)**.
