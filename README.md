@@ -74,6 +74,7 @@ Comandos para serem executados na raiz do projeto utilizando um terminal (CMD ou
 ## :ferris_wheel: Kubernetes
 
 Comandos para serem executados na raiz do projeto utilizando um terminal (CMD ou Bash)
+
 1 - Ativando o Kubernetes no Docker-Desktop
 
 <img alt="Ativando o Kubernetes no Docker-Desktop" src="src/img/kubernetes-docker-desktop.png" width="830px" />
