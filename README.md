@@ -44,6 +44,7 @@ Os comandos acima vão criar o build do projeto, esse build vai ser necessário 
 ## :whale: Docker
 
 Comandos para serem executados na raiz do projeto utilizando um terminal (CMD ou Bash)
+
 1 - Criando a imagem do projeto
 
 ```sh
@@ -77,19 +78,25 @@ Comandos para serem executados na raiz do projeto utilizando um terminal (CMD ou
 
 <img alt="Ativando o Kubernetes no Docker-Desktop" src="src/img/kubernetes-docker-desktop.png" width="830px" />
 
-2 - Criando o serviço Kubernetes
+2 - Criando o contexto padrão para o cluster do Kubernetes
+
+```sh
+  $ kubectl config use-context docker-desktop
+```
+
+3 - Criando o serviço Kubernetes
 
 ```sh
   $ kubectl apply -f deployment.yaml
 ```
 
-3 - Serviço do ambiente staging
+4 - Serviço do ambiente staging
 
 ```sh
   $ kubectl apply -f deployment-staging.yaml
 ```
 
-4 - Serviço do ambiente production
+5 - Serviço do ambiente production
 
 ```sh
   $ kubectl apply -f deployment-production.yaml
